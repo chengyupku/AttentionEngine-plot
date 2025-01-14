@@ -9,18 +9,17 @@ class CustomPythonLexer(PythonLexer):
     # TILELANG_LANGUAGE_KEYWORDS = {"T"}
     EXTRA_KEYWORDS = {
         "@",
-        "+"
     }
     VARIABLES = {
-        "Scores",
-        "Output",
+        "scores",
+        "output",
         "Query",
         "Key",
         "Value",
         "Q",
         "K",
         "V",
-        "h"
+        "state"
     }
     HIGHLIGHT_KEYWORDS = {
         "your_customized_layout",
@@ -56,13 +55,15 @@ class CustomStyle(DefaultStyle):  # 继承 DefaultStyle 或其他主题样式
 
 # 测试代码
 code = """
-def Recurrent(Query, Key, Value):
+def Parallel(Query, Key, Value):
+    Q = Qmod(Query)
     K = Kmod(Key)
+    scores = Q @ K
+    scores = customizeable_function(scores)
     V = Vmod(Value)
-    for i in range(sequence_length):
-        h[i] = K[i] @ V[i] + Hmod(h[i-1])
-    Output = Qmod(Query) @ h
-    return Output
+    state = scores @ V
+    output = customizeable_function(state)
+    return output
 """
 
 formatter = SvgFormatter(
